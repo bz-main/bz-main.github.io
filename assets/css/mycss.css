@@ -1,0 +1,151 @@
+.banner-open {
+  padding: 0 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.banner-open p {
+  color: #ffffff;
+
+  background: #00aaba;
+  border-radius: 10px;
+  padding: 10px 0;
+
+  width: 60%;
+  margin-bottom: 50px;
+
+  font: 24px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+  font-weight: 600;
+}
+
+.topbanner-p {
+  /* font: 24px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif; */
+  font-weight: 600;
+  margin-bottom: 60px;
+  font-size: 16px;
+}
+
+.banner-join {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.banner-join div {
+  width: 100%;
+  font-size: 1rem;
+
+  font-weight: 400;
+  color: #1c1f22;
+  line-height: 24px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  width: 260px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ourvision {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 60px;
+  width: 240px;
+  height: 60px;
+  background: #00aaba;
+  border-radius: 10px;
+
+  text-align: center;
+}
+
+.bution {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 50px;
+}
+
+.bution-item {
+  width: 252px;
+  height: 152px;
+  background: #000000;
+  border: 2px solid #00aaba;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+.bution-item p {
+  margin: 0 !important;
+  color: #fff;
+}
+
+.black {
+  color: #000 !important;
+}
+
+.fa-send:before {
+  margin-right: 20px;
+}
+
+.bottm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mH50 {
+  min-height: 50px;
+}
+
+.ptop {
+  top: 35%;
+}
+
+.bignone {
+  display: none;
+}
+
+.bigblack {
+  display: block;
+}
+
+@media only screen and (max-width: 991px) {
+  .bottm {
+    display: block;
+  }
+
+  .plr20 {
+    padding: 0 20px !important;
+  }
+
+  .mH50 {
+    min-height: 20px;
+  }
+
+  .ptop {
+    top: 25%;
+  }
+
+  .fz16 {
+    font-size: 16px !important;
+  }
+  .fz30 {
+    font-size: 30px !important;
+  }
+  .banner-open p {
+    width: 100% !important;
+  }
+
+  .smallnone {
+    display: none;
+  }
+  .smallblock {
+    display: block;
+  }
+}
