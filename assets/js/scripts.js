@@ -9,6 +9,119 @@ function goApp() {
   const code = params.get('code')
   window.open(`https://bz-info.github.io/#/?code=${code}`)
 }
+let web3Info = {
+  provider: null,
+  signer: null,
+  status: '',
+  account: '',
+  chainId: ''
+}
+
+function addInfoListener (web3Info) {
+  window.ethereum.removeAllListeners()
+  window.ethereum.on('accountsChanged', async (accounts) => {
+    if (window.document.visibilityState !== 'visible') return
+    window.location.reload()
+  })
+  window.ethereum.on('chainChanged', async (chainId) => {
+    if (window.document.visibilityState === 'visible') {
+      window.location.reload()
+    } else {
+      web3Info.chainId = chainId
+      web3Info.status = 'networkError'
+      web3Info.isActive = false
+    }
+  })
+}
+const getWeb3 = () => {
+  return new Promise((resolve, reject) => {
+    let cnt = 0
+    const intervalHandler = setInterval(() => {
+      if (cnt > 50) {
+        clearInterval(intervalHandler)
+        if (!window.ethereum && !window.web3) {
+          reject(new Error('install'))
+        } else {
+          reject(new Error('timeout'))
+        }
+      }
+      if (window.ethereum) {
+        clearInterval(intervalHandler)
+        resolve(window.ethereum)
+      } else if (window.web3) {
+        clearInterval(intervalHandler)
+        resolve(window.web3?.currentProvider)
+      }
+      cnt++
+    }, 100)
+  })
+}
+
+async function initWeb3() {
+  try {
+    const ethereum = await getWeb3()
+    console.log(ethereum)
+    addInfoListener(web3Info)
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+    if (accounts.length === 0) ethereum.request({ method: 'eth_requestAccounts' })
+    web3Info.account = accounts[0]
+    console.log(ethereum.chainId)
+
+    web3Info.provider = await new ethers.providers.Web3Provider(ethereum)
+    web3Info.signer = web3Info.provider.getSigner(web3Info.account).connectUnchecked()
+    web3Info.chainId = ethereum.chainId
+    web3Info.status = 'connected'
+    web3Info.isActive = true
+    console.log(web3Info.account)
+  } catch (e) {
+    if (e.message.indexOf('wallet_requestPermissions') > 0) web3Info.status = 'unlock'
+    else web3Info.status = e.message
+  }
+}
+
+const poolContractAddress = '0x3F45582a2584022a36DE32d7c70ac9CcE9990487'
+const poolAbi = [
+  {
+    "inputs": [],
+    "name": "bzPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
+
+function isNumeric (val) {
+  return val !== null && val !== '' && !isNaN(val)
+}
+
+function fixedNumber (num, decimals = 4) {
+  if (!isNumeric(num)) return num
+  const numStrArray = num.toString().split('.')
+  if (decimals === 0) return numStrArray[0]
+  if (numStrArray.length > 1) {
+    if (numStrArray[1].length >= decimals) {
+      return `${numStrArray[0]}.${numStrArray[1].slice(0, decimals)}`
+    }
+    return `${numStrArray[0]}.${numStrArray[1].padEnd(decimals, '0')}`
+  }
+  return `${numStrArray[0]}.${''.padEnd(decimals, '0')}`
+}
+
+
+const getBzPrice = async () => {
+  await initWeb3()
+  const poolContract = new ethers.Contract(poolContractAddress, poolAbi, web3Info.signer)
+  const res = await poolContract.bzPrice()
+  $('#bz-price')[0].innerHTML = fixedNumber(res/1000, 3)
+}
+
+
 (function ($) {
   "use strict";
 
@@ -19,6 +132,7 @@ function goApp() {
     var preLoder = $(".loader-wrapper");
     preLoder.delay(700).fadeOut(500);
     $("body").addClass("loaded");
+    getBzPrice()
   });
 
   /*===================================*

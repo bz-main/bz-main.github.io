@@ -53,6 +53,9 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js.map"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+            type="application/javascript"></script>
+    <script src="./assets/js/PoolAbi.js"></script>
   </head>
 
   <body class="v_navy_blue" data-spy="scroll" data-offset="110">
@@ -250,7 +253,9 @@
           <div class="banner-open">
             <p class="fz16">开启 1,000,000,000倍增长</p>
           </div>
-
+          <div style="font-size: 20px; color: #ffb200; font-weight: 600; margin-bottom: 20px; margin-top: -20px">
+            BZ 今日价格: 1 BZ = <span id="bz-price">--</span> USDT
+          </div>
           <div class="banner-join" onclick="goApp()" style="cursor: pointer">
             <div>
               <img src="/assets/images/favicon.png" alt="" />
