@@ -79,7 +79,23 @@ async function initWeb3() {
   }
 }
 
-const poolContractAddress = '0x0f2c809246B9BC0B6CEb68b7C269a72Ca74FEFD9'
+const factoryContractAddress = '0xB96E25bE8167AC1856B109A47291f844714Cf0B6'
+const factoryAbi = [
+  {
+    "inputs": [],
+    "name": "pool",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
+
 const poolAbi = [
   {
     "inputs": [],
@@ -159,7 +175,9 @@ const getUBalance = async () => {
 const getBzPrice = async () => {
   $('#store-address')[0].innerHTML = storeAddress
   await initWeb3()
-  const poolContract = new ethers.Contract(poolContractAddress, poolAbi, web3Info.signer)
+  const factoryContract = new ethers.Contract(factoryContractAddress, factoryAbi, web3Info.signer)
+  const poolAddress = await factoryContract.pool()
+  const poolContract = new ethers.Contract(poolAddress, poolAbi, web3Info.signer)
   const res = await poolContract.bzPrice()
   $('#bz-price')[0].innerHTML = fixedNumber(res/1000, 3)
   const onlineNum = await poolContract.onlineNum()
