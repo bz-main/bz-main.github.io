@@ -79,7 +79,7 @@ async function initWeb3() {
   }
 }
 
-const poolContractAddress = '0x3F45582a2584022a36DE32d7c70ac9CcE9990487'
+const poolContractAddress = '0x0f2c809246B9BC0B6CEb68b7C269a72Ca74FEFD9'
 const poolAbi = [
   {
     "inputs": [],
@@ -91,6 +91,37 @@ const poolAbi = [
         "type": "uint256"
       }
     ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "onlineNum",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+]
+
+const erc20Abi = [
+  {
+    "inputs": [{
+      "internalType": "address",
+      "name": "account",
+      "type": "address"
+    }],
+    "name": "balanceOf",
+    "outputs": [{
+      "internalType": "uint256",
+      "name": "",
+      "type": "uint256"
+    }],
     "stateMutability": "view",
     "type": "function"
   }
@@ -113,12 +144,27 @@ function fixedNumber (num, decimals = 4) {
   return `${numStrArray[0]}.${''.padEnd(decimals, '0')}`
 }
 
+const USDT = '0x55d398326f99059fF775485246999027B3197955'
+const storeAddress = '0xdc0b57380a6ef8ea46a2b068f1cbafa0b1737e4f'
+function formatAddress (val, start = 6, end = 6) {
+  if (!val || val === '' || val.length < 12) return val
+  return `${val.substring(0, start)}...${val.substring(val.length - end)}`
+}
+const getUBalance = async () => {
+  const tokenContract = new ethers.Contract(USDT, erc20Abi, web3Info.signer)
+  const balance = await tokenContract.balanceOf(storeAddress)
+  $('#store-balance')[0].innerHTML = `${fixedNumber(ethers.utils.formatUnits(balance, 18))} USDT`
+}
 
 const getBzPrice = async () => {
+  $('#store-address')[0].innerHTML = storeAddress
   await initWeb3()
   const poolContract = new ethers.Contract(poolContractAddress, poolAbi, web3Info.signer)
   const res = await poolContract.bzPrice()
   $('#bz-price')[0].innerHTML = fixedNumber(res/1000, 3)
+  const onlineNum = await poolContract.onlineNum()
+  $('#online-num')[0].innerHTML = onlineNum
+  await getUBalance()
 }
 
 

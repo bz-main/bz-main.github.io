@@ -253,8 +253,23 @@
           <div class="banner-open">
             <p class="fz16">开启 1,000,000,000倍增长</p>
           </div>
-          <div style="font-size: 20px; color: #ffb200; font-weight: 600; margin-bottom: 20px; margin-top: -20px">
-            BZ 今日价格: 1 BZ = <span id="bz-price">--</span> USDT
+          <div class="more-box">
+            <div style="color: #ffb200; font-weight: 600; display: flex;justify-content: space-between;align-items: center">
+              <span>BZ 今日价格: </span>
+              <span style="font-size: 20px; ">1 BZ = <span id="bz-price">--</span> USDT</span>
+            </div>
+            <div style="line-height: 16px; color: #ffb200; font-weight: 600; display: flex;justify-content: space-between;align-items: start; margin: 10px 0">
+              <span style="margin-right: 10%">护仓地址：</span>
+              <span id="store-address" style="flex: 1; word-break: break-all;text-align: right"></span>
+            </div>
+            <div style="color: #ffb200; font-weight: 600; display: flex;justify-content: space-between;align-items: center">
+              <span style="margin-right: 10%">余额：</span>
+              <span id="store-balance" style="font-size: 20px; "></span>
+            </div>
+            <div style="color: #ffb200; font-weight: 600; display: flex;justify-content: space-between;align-items: center">
+              <span style="margin-right: 10%">当前在线人数：</span>
+              <span id="online-num" style="font-size: 20px; "></span>
+            </div>
           </div>
           <div class="banner-join" onclick="goApp()" style="cursor: pointer">
             <div>

@@ -149,3 +149,12 @@
     display: block;
   }
 }
+.more-box {
+  background: rgba(0,0,0, 0.4);
+  width: 90%;
+  max-width: 550px;
+  margin: -20px auto 20px;
+  padding: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+}
