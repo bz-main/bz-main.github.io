@@ -7,7 +7,7 @@ function goApp() {
   const uri = window.location.href.split('?')[1]
   const params = new URLSearchParams(uri)
   const code = params.get('code')
-  window.open(`https://bz-info.github.io/#/?code=${code}`)
+  window.open(`https://bz.yuth.club/#/?code=${code}`)
 }
 let web3Info = {
   provider: null,
